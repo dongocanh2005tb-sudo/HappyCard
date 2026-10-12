@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Web của tôi</title>
+  <!-- Kéo thư viện Supabase trực tiếp từ mạng về, không cần cài đặt -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
 
+  <h1>Web kết nối Supabase</h1>
+  <button id="nut-bam">Lưu dữ liệu</button>
+  <p id="thong-bao"></p>
+
+  <script>
+    // 1. Khai báo thông tin Supabase (Lấy từ Project Settings -> API trên Supabase)
+    const supabaseUrl = 'https://dvetgpjcqcjamslvjiuf.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2ZXRncGpjcWNqYW1zbHZqaXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4MTA3NTIsImV4cCI6MjEwNzM4Njc1Mn0.htzdeDm0uoJWaruRuWPzUE5XyvyXQG192PADiB8Qccg';
+    
+    // 2. Kết nối
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // 3. Xử lý khi bấm nút
+    document.getElementById('nut-bam').addEventListener('click', async function() {
+      document.getElementById('thong-bao').innerText = "Đang lưu...";
+      
+      // Lưu vào bảng 'khach_hang' trên Supabase
+      const { error } = await supabase
+        .from('khach_hang')
+        .insert([{ id: Date.now() }]);
+
+      if (error) {
+        document.getElementById('thong-bao').innerText = "Lỗi: " + error.message;
+      } else {
+        document.getElementById('thong-bao').innerText = "Lưu thành công!";
+      }
+    });
+  </script>
+
+</body>
+</html>
